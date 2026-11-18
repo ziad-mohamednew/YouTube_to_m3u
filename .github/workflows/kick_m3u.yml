@@ -1,0 +1,32 @@
+name: Kick M3U Generator
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */3 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install yt-dlp
+        run: pip install -U yt-dlp
+
+      - name: Run Kick grabber
+        run: python kick_grabber.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add kick.m3u
+          git commit -m "Update Kick m3u" || exit 0
+          git push
