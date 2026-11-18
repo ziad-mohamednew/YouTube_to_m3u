@@ -17,8 +17,8 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install yt-dlp
-        run: pip install -U yt-dlp
+      - name: Install curl_cffi
+        run: pip install curl_cffi
 
       - name: Run Kick grabber
         run: python kick_grabber.py
